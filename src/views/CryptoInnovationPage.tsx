@@ -186,7 +186,7 @@ export const CryptoInnovationPage = () => {
           </div>
         </div>
 
-        {/*  */}
+        {/*  bottom stats */}
         <BottomStats />
       </div>
     </div>
