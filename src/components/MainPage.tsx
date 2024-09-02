@@ -1,5 +1,3 @@
-import React from "react";
-import { ArrowRightLeft } from "lucide-react";
 import MainBg from "../assets/hero-bg.png";
 import TopLogo from "../assets/top-logo.png";
 import { GradientButton } from "./common/GradientButton";

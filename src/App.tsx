@@ -1,10 +1,12 @@
 import "./App.css";
-import { MainPage } from "./components/MainPage";
+import { CryptoInnovationPage } from "./components/CryptoInnovationPage";
+// import { MainPage } from "./components/MainPage";
 
 function App() {
   return (
     <>
-      <MainPage />
+      {/* <MainPage /> */}
+      <CryptoInnovationPage />
     </>
   );
 }
