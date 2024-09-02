@@ -36,7 +36,7 @@ export const CryptoInnovationPage = () => {
   const [solAmount, setSolAmount] = useState(0);
 
   const handleAmountClick = (amount: number) => {
-    setSolAmount(amount);
+    setSolAmount((prevVal) => amount + prevVal);
   };
 
   const handleReset = () => {
