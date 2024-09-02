@@ -1,14 +1,13 @@
 import { useState } from "react";
 import MainBg from "../assets/solAdz-bg.png";
-import TopLogo from "../assets/top-logo.png";
 import GetStartedToday from "../assets/get-started-today.svg";
 import CalculatorBg from "../assets/calculator-bg.png";
 import LinesRight from "../assets/lines-right.png";
 import BgLeft from "../assets/bg-left-1.png";
-import { ConnectWalletButton } from "../components/common/ConnectWalletButton";
 import SignatureRequestModal from "../components/SignatureRequestModal";
 import { BottomStats } from "../components/BottomStats";
 import VerticalDash from "../assets/vertical-dash.svg";
+import { Header } from "@/components/Header";
 const heroLinks = [
   {
     id: 1,
@@ -43,34 +42,15 @@ export const CryptoInnovationPage = () => {
     setSolAmount(0);
   };
 
-  const rightText = "MY SOLADZ RANK: STARTER | MY SOL ADDRESS:";
-
   return (
     <div className="min-h-screen pb-12 relative h-full overflow-x-hidden">
       <img className="absolute top-0 left-0 w-full h-full object-fill" src={MainBg} alt="Bg Hero" />
 
       <div className="relative z-10">
         {/* Upper sections */}
+
         <div className=" max-w-7xl mx-auto px-4 md:px-8">
-          <header className="flex gap-1 justify-between items-center mt-12">
-            <div className="flex items-center gap-2 sm:gap-4">
-              <img className="max-w-[50px] lg:max-w-[62px] w-full" src={TopLogo} alt="top logo" />
-              <h1 className="bg-gradient-to-br from-[#F7F6FF] via-[#F7F6FF_26%] to-[#C669FF] bg-clip-text text-[30px] lg:text-[50px] text-transparent poller">
-                SolAdz
-              </h1>
-            </div>
-
-            <div className="flex items-center text-xs lg:text-sm">
-              <div className="hidden md:flex">
-                <span className="text-white mr-4">{rightText}</span>
-              </div>
-              <ConnectWalletButton text="CONNECT WALLET" />
-            </div>
-          </header>
-
-          <div className=" flex text-center md:hidden justify-center mt-6">
-            <span className="text-white text-xs mr-4">{rightText}</span>
-          </div>
+          <Header />
 
           <div className="flex gap-2 md:gap-2 flex-col md:flex-row justify-center md:justify-between items-center">
             <nav className="text-black flex gap-3 mt-4 md:mt-0">
