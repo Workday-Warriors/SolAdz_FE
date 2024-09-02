@@ -13,6 +13,8 @@ export const Calculator = () => {
     setSolAmount(0);
   };
 
+  const availableValues = [0.1, 0.3, 0.5, 1, 1.5, 3, 5, 10, 25, 55, 50, 100];
+
   return (
     <div className="flex items-center justify-center lg:block ">
       <div className="relative mx-auto lg:mx-[unset] lg:max-w-[96.5vw] bg-black lg:bg-transparent rounded-xl lg:rounded-none z-0 mt-8 lg:-mt-44">
@@ -34,7 +36,7 @@ export const Calculator = () => {
               </div>
             </div>
             <div className="grid grid-cols-4 gap-3 md:gap-5 mb-4">
-              {[0.1, 0.3, 0.5, 1, 1.5, 3, 5, 10, 25, 55, 50, 100].map((amount) => (
+              {availableValues.map((amount) => (
                 <>
                   <div
                     className={`relative bg-button-gradient-2 inline-block rounded-[6px] p-[2px] `}
@@ -42,11 +44,7 @@ export const Calculator = () => {
                     <button
                       onClick={() => handleAmountClick(amount)}
                       className={`
-          relative bg-[#191e34] rounded-full px-1 sm:px-2 w-full py-1 text-white font-light text-sm 
-           flex items-center justify-center text-nowrap`}
-                      style={{
-                        borderRadius: "6px" // Ensures the button itself is fully rounded
-                      }}
+          relative bg-[#191e34] px-1 sm:px-2 w-full py-1 text-white font-light text-sm flex items-center justify-center text-nowrap rounded-[6px]`}
                     >
                       +{amount} SOL
                     </button>
