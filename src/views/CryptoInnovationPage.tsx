@@ -8,7 +8,7 @@ import BgLeft from "../assets/bg-left-1.png";
 import { ConnectWalletButton } from "../components/common/ConnectWalletButton";
 import SignatureRequestModal from "../components/SignatureRequestModal";
 import SmartContactInfo from "../components/SmartContractInfo";
-
+import VerticalDash from "../assets/vertical-dash.svg";
 const heroLinks = [
   {
     id: 1,
@@ -61,7 +61,6 @@ export const CryptoInnovationPage = () => {
             </div>
 
             <div className="flex items-center text-xs lg:text-sm">
-              {/* todo - update it for mobile also */}
               <div className="hidden md:flex">
                 <span className="text-white mr-4">{rightText}</span>
               </div>
@@ -69,7 +68,6 @@ export const CryptoInnovationPage = () => {
             </div>
           </header>
 
-          {/*  */}
           <div className=" flex text-center md:hidden justify-center mt-6">
             <span className="text-white text-xs mr-4">{rightText}</span>
           </div>
@@ -84,39 +82,7 @@ export const CryptoInnovationPage = () => {
                   >
                     {val.title}
                   </a>
-                  {index !== heroLinks.length - 1 && (
-                    <svg
-                      width="1"
-                      height="34"
-                      viewBox="0 0 1 34"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <line
-                        x1="0.5"
-                        y1="0.5"
-                        x2="0.499999"
-                        y2="33.5"
-                        stroke="url(#paint0_linear_22_68)"
-                        stroke-linecap="round"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="paint0_linear_22_68"
-                          x1="-0.5"
-                          y1="-2.18557e-08"
-                          x2="-0.500001"
-                          y2="34"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stop-color="#545454" stop-opacity="0.66" />
-                          <stop offset="0.392725" stop-opacity="0.927053" />
-                          <stop offset="0.632725" />
-                          <stop offset="1" stop-color="#666666" stop-opacity="0.66" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  )}
+                  {index !== heroLinks.length - 1 && <img src={VerticalDash} alt="vertical-dash" />}
                 </div>
               ))}
             </nav>
