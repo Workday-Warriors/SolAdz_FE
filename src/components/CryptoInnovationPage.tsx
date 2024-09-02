@@ -216,7 +216,9 @@ export const CryptoInnovationPage = () => {
                     </button>
                   </div>
                   <div
-                    className={`relative inline-block p-[2px] w-full rounded-full`}
+                    className={`relative inline-block p-[2px] w-full rounded-full ${
+                      solAmount === 0 ? "opacity-30" : ""
+                    }`}
                     style={{
                       background: "linear-gradient(to right, #623EFF, #7AD6FF)", // Gradient border background
                       borderRadius: "6px" // Ensures the outer wrapper is fully rounded
