@@ -1,7 +1,7 @@
 import MainBg from "../assets/hero-bg.png";
 import TopLogo from "../assets/top-logo.png";
-import { GradientButton } from "./common/GradientButton";
-import { GradientBorderButton } from "./common/GradientBorderButton";
+import { GradientButton } from "../components/common/GradientButton";
+import { GradientBorderButton } from "../components/common/GradientBorderButton";
 import { Link } from "react-router-dom";
 
 export const MainPage = () => {

@@ -5,9 +5,9 @@ import GetStartedToday from "../assets/get-started-today.svg";
 import CalculatorBg from "../assets/calculator-bg.png";
 import LinesRight from "../assets/lines-right.png";
 import BgLeft from "../assets/bg-left-1.png";
-import { ConnectWalletButton } from "./common/ConnectWalletButton";
-import SignatureRequestModal from "./SignatureRequestModal";
-import SmartContactInfo from "./SmartContractInfo";
+import { ConnectWalletButton } from "../components/common/ConnectWalletButton";
+import SignatureRequestModal from "../components/SignatureRequestModal";
+import SmartContactInfo from "../components/SmartContractInfo";
 
 const heroLinks = [
   {
