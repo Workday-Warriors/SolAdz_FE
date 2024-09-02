@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 // import { Button } from "@/components/ui/button";
 
-const SmartContactInfo = () => {
+export const BottomStats = () => {
   const contactInfoItems = Array(8)
     .fill(null)
     .map((_, index: number) => ({
@@ -73,5 +73,3 @@ const SmartContactInfo = () => {
     </div>
   );
 };
-
-export default SmartContactInfo;

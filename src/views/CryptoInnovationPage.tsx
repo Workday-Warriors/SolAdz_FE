@@ -7,7 +7,7 @@ import LinesRight from "../assets/lines-right.png";
 import BgLeft from "../assets/bg-left-1.png";
 import { ConnectWalletButton } from "../components/common/ConnectWalletButton";
 import SignatureRequestModal from "../components/SignatureRequestModal";
-import SmartContactInfo from "../components/SmartContractInfo";
+import { BottomStats } from "../components/BottomStats";
 import VerticalDash from "../assets/vertical-dash.svg";
 const heroLinks = [
   {
@@ -185,7 +185,9 @@ export const CryptoInnovationPage = () => {
             </div>
           </div>
         </div>
-        <SmartContactInfo />
+
+        {/*  */}
+        <BottomStats />
       </div>
     </div>
   );
