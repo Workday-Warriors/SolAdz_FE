@@ -44,7 +44,7 @@ export const Calculator = () => {
                     <button
                       onClick={() => handleAmountClick(amount)}
                       className={`
-          relative bg-[#191e34] px-1 sm:px-2 w-full py-1 text-white font-light text-sm flex items-center justify-center text-nowrap rounded-[6px]`}
+          relative bg-[#191e34] hover:brightness-150 transition-all duration-300 px-1 sm:px-2 w-full py-1 text-white font-light text-sm flex items-center justify-center text-nowrap rounded-[6px]`}
                     >
                       +{amount} SOL
                     </button>
@@ -58,7 +58,7 @@ export const Calculator = () => {
               >
                 <button
                   onClick={handleReset}
-                  className="w-full bg-[#140e3c] text-white py-2 px-4 rounded flex-1 font-medium text-[15px]"
+                  className="w-full bg-[#140e3c] hover:brightness-150 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px]"
                 >
                   Reset
                 </button>
