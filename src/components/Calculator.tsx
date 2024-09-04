@@ -6,7 +6,7 @@ export const Calculator = () => {
   const [solAmount, setSolAmount] = useState(0);
 
   const handleAmountClick = (amount: number) => {
-    setSolAmount((prevVal) => amount + prevVal);
+    setSolAmount((prevVal) => +(amount + prevVal).toFixed(2));
   };
 
   const handleReset = () => {
