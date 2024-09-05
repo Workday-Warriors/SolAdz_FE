@@ -69,7 +69,7 @@ function App() {
             <div
               className={`${
                 isLoading ? "opacity-100" : "opacity-0"
-              } transition-all duration-300 absolute min-h-screen w-full h-full top-0 left-0 bg-blue-400 z-[99999] pointer-events-none`}
+              } transition-all duration-300 fixed min-h-screen w-full h-full top-0 left-0 bg-blue-400 z-[99999] pointer-events-none`}
             >
               <div className="h-full w-full flex items-center justify-center">
                 <Lottie
