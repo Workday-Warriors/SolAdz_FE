@@ -1,10 +1,7 @@
 import { ConnectWalletButton } from "./common/ConnectWalletButton";
 import TopLogo from "../assets/top-logo.png";
 import { Link } from "react-router-dom";
-import {
-  BaseWalletMultiButton,
-  useWalletModal,
-} from "@solana/wallet-adapter-react-ui";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useEffect, useState } from "react";
@@ -12,7 +9,7 @@ import { useEffect, useState } from "react";
 export const Header = () => {
   const rightText = "MY SOLADZ RANK: STARTER | MY SOL ADDRESS:";
   const { setVisible } = useWalletModal();
-  const { wallet, publicKey, disconnect } = useWallet();
+  const { publicKey } = useWallet();
 
   const { connection } = useConnection();
   const [balance, setBalance] = useState(0);

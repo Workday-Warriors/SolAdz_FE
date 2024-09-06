@@ -91,7 +91,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                 </div>
                 <div className="space-y-4 border-t border-gray-200 pt-4 mb-6">
                   <TransactionItem leftVal="Type" rightVal="Smart Contract Trigger" />
-                  <TransactionItem leftVal="Network" rightVal="Mainnet/MainChain" />
+                  <TransactionItem leftVal="Network" rightVal="Mainnet" />
                   <TransactionItem
                     leftVal="Contract"
                     rightVal={`${IDL.address.slice(0, 12)}...${IDL.address.slice(-12)}`}
