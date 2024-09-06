@@ -183,9 +183,9 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                       <span className="font-medium">Fee (?)</span>
                     </div>
                   </div>
-                  <div className="mt-4 text-blue-600 cursor-pointer">
+                  <a href={`https://solscan.io/tx${txHash}`} className="mt-4 text-blue-600 cursor-pointer">
                     Go to SOLscan for detailed data
-                  </div>
+                  </a>
                 </div>
               </>
             )}
