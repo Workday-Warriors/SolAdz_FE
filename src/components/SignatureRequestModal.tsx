@@ -8,8 +8,9 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import IDL from '../idl/soladz.json';
-import { AnchorProvider, BN, Idl, Program, setProvider, utils } from "@coral-xyz/anchor";
+import { AnchorProvider, BN, Idl, Program } from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
+import { SYSTEM_PROGRAM_ID } from "@coral-xyz/anchor/dist/cjs/native/system";
 
 const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: string }) => {
   return (
@@ -31,7 +32,9 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
       if (!publicKey || !signTransaction || !signAllTransactions) return;
       const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
       const program = new Program(IDL as Idl, provider);
-      const ixn = await program.methods.invest(new BN(solAmount * LAMPORTS_PER_SOL)).instruction();
+      const ixn = await program.methods.invest(new BN(solAmount * LAMPORTS_PER_SOL)).accounts({
+        referrer: publicKey
+      }).instruction();
       const instructions = [ixn];
       const { blockhash } = await connection.getLatestBlockhash();
       const message = new TransactionMessage({
@@ -45,7 +48,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setTransactionSuccess(true);
     } catch (e) {
-
+      console.log(e)
     }
   }, [publicKey, signAllTransactions, signAllTransactions, solAmount]);
 

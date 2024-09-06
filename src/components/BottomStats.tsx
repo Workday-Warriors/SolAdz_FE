@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { connection } from "@/lib/utils";
 import { AnchorProvider, Idl, Program, utils } from "@coral-xyz/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // import { Button } from "@/components/ui/button";
 import IDL from '../idl/soladz.json';
-import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { PublicKey, LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
@@ -24,31 +24,54 @@ export const BottomStats = () => {
       contribution: 0
     }));
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
+
+  const getReward = useCallback(async () => {
+    try {
+      if (!publicKey || !signTransaction || !signAllTransactions) return;
+      const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+      const program = new Program(IDL as Idl, provider);
+      const investorAccount = PublicKey.findProgramAddressSync(
+        [
+          utils.bytes.utf8.encode("investor"),
+          publicKey.toBuffer()
+        ],
+        program.programId
+      )[0];
+      const res = await program.methods.rewardView().accounts({
+        investorAccount
+      }).view();
+      setReward(Number(res) / LAMPORTS_PER_SOL)
+    } catch (e) {
+
+    }
+  }, [publicKey, signTransaction, signAllTransactions])
+
   useEffect(() => {
     const timer = setInterval(async () => {
-      try {
-        if (!publicKey || !signTransaction || !signAllTransactions) return;
-        const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
-        const program = new Program(IDL as Idl, provider);
-        const investorAccount = PublicKey.findProgramAddressSync(
-          [
-            utils.bytes.utf8.encode("investor"),
-            publicKey.toBuffer()
-          ],
-          program.programId
-        )[0];
-        const res = await program.methods.rewardView().accounts({
-          investorAccount
-        }).view();
-        setReward(Number(res) / LAMPORTS_PER_SOL)
-      } catch (e) { 
-        
-      }
+      getReward();
     }, 3000)
     return () => {
       clearInterval(timer);
     }
-  }, [publicKey, setReward, signTransaction, signAllTransactions]);
+  }, [publicKey, signTransaction, signAllTransactions]);
+
+  const withdraw = useCallback(async () => {
+    if (!publicKey || !signTransaction || !signAllTransactions) return;
+      const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+      const program = new Program(IDL as Idl, provider);
+      const ixn = await program.methods.claim().instruction();
+      const instructions = [ixn];
+      const { blockhash } = await connection.getLatestBlockhash();
+      const message = new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: blockhash,
+        instructions
+      }).compileToV0Message();
+      const transaction = new VersionedTransaction(message);
+      const txn = await signTransaction(transaction);
+      await connection.sendTransaction(txn);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+  }, [publicKey, signTransaction, signAllTransactions]);
 
   return (
     <div className="px-4 mt-12">
@@ -103,7 +126,7 @@ export const BottomStats = () => {
             <div
               className={`mt-8 max-w-[253px] relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
             >
-              <button className="w-full hover:bg-white/20 transition-all duration-300 bg-[#140e3c] text-white py-1 px-4 rounded flex-1 font-medium text-[14px]">
+              <button onClick={withdraw} className="w-full hover:bg-white/20 transition-all duration-300 bg-[#140e3c] text-white py-1 px-4 rounded flex-1 font-medium text-[14px]">
                 Withdraw
               </button>
             </div>

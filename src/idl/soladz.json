@@ -1,5 +1,5 @@
 {
-  "address": "5LonPY5Qzt8c9qaSLtJhF5hxvgyPveKNs4eUgrYbuAjh",
+  "address": "FeWGbNukxLxUcNwMkX9GDcRqX95zWkCgutvAyFFnycka",
   "metadata": {
     "name": "soladz",
     "version": "0.1.0",
@@ -7,6 +7,124 @@
     "description": "Created with Anchor"
   },
   "instructions": [
+    {
+      "name": "change_owner",
+      "discriminator": [
+        109,
+        40,
+        40,
+        90,
+        224,
+        120,
+        193,
+        184
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "app_stats"
+          ]
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "new_owner",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim",
+      "discriminator": [
+        62,
+        198,
+        214,
+        193,
+        213,
+        159,
+        108,
+        210
+      ],
+      "accounts": [
+        {
+          "name": "investor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "investor_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "investor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
     {
       "name": "initialize",
       "discriminator": [
@@ -116,6 +234,109 @@
           }
         },
         {
+          "name": "fee_account",
+          "writable": true,
+          "address": "Gaj7cGbQ3CCWkqn8QsnLXEVaBaTN98GRxkX1pPsC4yNS"
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "referrer"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "investor_withdraw",
+      "discriminator": [
+        245,
+        32,
+        238,
+        154,
+        178,
+        216,
+        9,
+        151
+      ],
+      "accounts": [
+        {
+          "name": "investor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "investor_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "investor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
           "name": "app_stats",
           "writable": true,
           "pda": {
@@ -148,6 +369,52 @@
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "open_new_cycle",
+      "discriminator": [
+        95,
+        148,
+        140,
+        167,
+        75,
+        216,
+        167,
+        194
+      ],
+      "accounts": [
+        {
+          "name": "investor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "investor_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "investor"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
     },
     {
       "name": "owner_withdraw",
@@ -215,12 +482,7 @@
           "address": "11111111111111111111111111111111"
         }
       ],
-      "args": [
-        {
-          "name": "lamports",
-          "type": "u64"
-        }
-      ]
+      "args": []
     },
     {
       "name": "reward_view",
@@ -281,6 +543,11 @@
       "code": 6001,
       "name": "InsufficientBalance",
       "msg": "Insufficient balance"
+    },
+    {
+      "code": 6002,
+      "name": "CantReachNewCycle",
+      "msg": "Can not reach new cycle"
     }
   ],
   "types": [
@@ -295,6 +562,26 @@
           },
           {
             "name": "investor_count",
+            "type": "u64"
+          },
+          {
+            "name": "top_sponser_pool",
+            "type": "u64"
+          },
+          {
+            "name": "whale_pool",
+            "type": "u64"
+          },
+          {
+            "name": "total_deposits",
+            "type": "u64"
+          },
+          {
+            "name": "last_top_sponser_distribution",
+            "type": "u64"
+          },
+          {
+            "name": "last_whale_distribution",
             "type": "u64"
           }
         ]
@@ -320,6 +607,22 @@
           {
             "name": "last_update",
             "type": "i64"
+          },
+          {
+            "name": "current_cycle",
+            "type": "u8"
+          },
+          {
+            "name": "total_earned",
+            "type": "u64"
+          },
+          {
+            "name": "cycle_completed",
+            "type": "bool"
+          },
+          {
+            "name": "referrer",
+            "type": "pubkey"
           }
         ]
       }
