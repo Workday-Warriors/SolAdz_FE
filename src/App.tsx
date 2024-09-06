@@ -5,7 +5,10 @@ import { MainPage } from "./views/MainPage";
 import Lottie from "lottie-react";
 import animationData from "./assets/loading/loading.json";
 import { useEffect, useState, useMemo } from "react";
-import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   LedgerWalletAdapter,
@@ -13,10 +16,14 @@ import {
   SolflareWalletAdapter,
   SolongWalletAdapter,
   TorusWalletAdapter,
-  UnsafeBurnerWalletAdapter
+  UnsafeBurnerWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
+import { Manage } from "./views/Manage";
+
+import LoginModal from "./components/LoginModal";
+import ProtectedRoute from "./components/ProtectRoutes";
 
 // Default styles that can be overridden by your app
 import("@solana/wallet-adapter-react-ui/styles.css");
@@ -24,12 +31,24 @@ import("@solana/wallet-adapter-react-ui/styles.css");
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainPage />
+    element: <MainPage />,
   },
   {
     path: "/innovation",
-    element: <CryptoInnovationPage />
-  }
+    element: <CryptoInnovationPage />,
+  },
+  {
+    path: "/admin",
+    element: <LoginModal />,
+  },
+  {
+    path: "/manage", // New route for the actual manage page
+    element: (
+      <ProtectedRoute>
+        <Manage />
+      </ProtectedRoute>
+    ),
+  },
 ]);
 
 // Main App component
@@ -47,7 +66,7 @@ function App() {
       new TorusWalletAdapter(),
       new LedgerWalletAdapter(),
       new SolongWalletAdapter(),
-      new SolflareWalletAdapter()
+      new SolflareWalletAdapter(),
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [network]
@@ -80,7 +99,7 @@ function App() {
                 />
               </div>
             </div>
-            <RouterProvider router={router} />;
+            <RouterProvider router={router} />
           </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>
