@@ -1,31 +1,112 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import MainBg from "../assets/solAdz-bg.png";
 import { Header } from "@/components/Header";
 import { ArrowRight, UserPlus, UserMinus, Coins } from 'lucide-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { AnchorProvider, Idl, Program } from '@coral-xyz/anchor';
+import IDL from '../idl/soladz.json';
+import { TransactionMessage, VersionedTransaction, PublicKey } from '@solana/web3.js';
 
 export const Manage = () => {
   const [ownershipAddress, setOwnershipAddress] = useState('');
   const [adminAddress, setAdminAddress] = useState('');
 
-  const handleTransferOwnership = () => {
+  const { connection } = useConnection();
+  const { publicKey, signAllTransactions, signTransaction } = useWallet();
+
+  const handleTransferOwnership = useCallback(async () => {
     // Implement transfer ownership logic here
-    console.log('Transferring ownership to:', ownershipAddress);
-  };
+    try {
+      if (!publicKey || !signTransaction || !signAllTransactions) return;
+      const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+      const program = new Program(IDL as Idl, provider);
+      const ixn = await program.methods.changeOwner().accounts({
+        newOwner: new PublicKey(ownershipAddress)
+      }).instruction();
+      const instructions = [ixn];
+      const { blockhash } = await connection.getLatestBlockhash();
+      const message = new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: blockhash,
+        instructions
+      }).compileToV0Message();
+      const transaction = new VersionedTransaction(message);
+      const txn = await signTransaction(transaction);
+      await connection.sendTransaction(txn);
+      console.log('Transferring ownership to:', ownershipAddress);
+    } catch (e) {
+      console.log(e)
+    }
+  }, [ownershipAddress, publicKey, signAllTransactions, signAllTransactions]);
 
-  const handleAddAdmin = () => {
+  const handleAddAdmin = useCallback(async () => {
     // Implement add admin logic here
+    try {
+      if (!publicKey || !signTransaction || !signAllTransactions) return;
+      const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+      const program = new Program(IDL as Idl, provider);
+      const ixn = await program.methods.addAdmin().accounts({
+        admin: new PublicKey(adminAddress)
+      }).instruction();
+      const instructions = [ixn];
+      const { blockhash } = await connection.getLatestBlockhash();
+      const message = new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: blockhash,
+        instructions
+      }).compileToV0Message();
+      const transaction = new VersionedTransaction(message);
+      const txn = await signTransaction(transaction);
+      await connection.sendTransaction(txn);
+    } catch (e) {
+      console.log(e);
+    }
     console.log('Adding admin:', adminAddress);
-  };
+  }, [publicKey, signAllTransactions, signAllTransactions, adminAddress]);
 
-  const handleRemoveAdmin = () => {
+  const handleRemoveAdmin = useCallback(async() => {
     // Implement remove admin logic here
-    console.log('Removing admin:', adminAddress);
-  };
+    try {
+      if (!publicKey || !signTransaction || !signAllTransactions) return;
+      const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+      const program = new Program(IDL as Idl, provider);
+      const ixn = await program.methods.removeAdmin().accounts({
+        admin: new PublicKey(adminAddress)
+      }).instruction();
+      const instructions = [ixn];
+      const { blockhash } = await connection.getLatestBlockhash();
+      const message = new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: blockhash,
+        instructions
+      }).compileToV0Message();
+      const transaction = new VersionedTransaction(message);
+      const txn = await signTransaction(transaction);
+      await connection.sendTransaction(txn);
+      console.log('Removing admin:', adminAddress);
+    } catch (e) {
+      console.log(e)
+    }
+  }, [publicKey, signAllTransactions, signAllTransactions, adminAddress]);
 
-  const handleRecoverStuckSol = () => {
+  const handleRecoverStuckSol = useCallback(async () => {
     // Implement recover stuck SOL logic here
+    if (!publicKey || !signTransaction || !signAllTransactions) return;
+    const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+    const program = new Program(IDL as Idl, provider);
+    const ixn = await program.methods.ownerWithdraw().instruction();
+    const instructions = [ixn];
+    const { blockhash } = await connection.getLatestBlockhash();
+    const message = new TransactionMessage({
+      payerKey: publicKey,
+      recentBlockhash: blockhash,
+      instructions
+    }).compileToV0Message();
+    const transaction = new VersionedTransaction(message);
+    const txn = await signTransaction(transaction);
+    await connection.sendTransaction(txn);
     console.log('Recovering stuck SOL');
-  };
+  }, [publicKey, signAllTransactions, signAllTransactions]);
 
   return (
     <div className="min-h-screen pb-12 relative h-full overflow-x-hidden">
@@ -38,10 +119,10 @@ export const Manage = () => {
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <Header />
-          
+
           <div className="mt-10 space-y-8 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">Manage Contract</h2>
-            
+
             <div className="space-y-4">
               <label className="block text-sm font-medium text-gray-700">Transfer Ownership</label>
               <div className="flex space-x-2">

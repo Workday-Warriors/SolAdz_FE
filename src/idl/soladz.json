@@ -8,6 +8,80 @@
   },
   "instructions": [
     {
+      "name": "add_admin",
+      "discriminator": [
+        177,
+        236,
+        33,
+        205,
+        124,
+        152,
+        55,
+        186
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "app_stats"
+          ]
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin"
+        },
+        {
+          "name": "admin_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
       "name": "change_owner",
       "discriminator": [
         109,
@@ -51,8 +125,7 @@
           }
         },
         {
-          "name": "new_owner",
-          "signer": true
+          "name": "new_owner"
         }
       ],
       "args": []
@@ -259,9 +332,6 @@
               }
             ]
           }
-        },
-        {
-          "name": "referrer"
         },
         {
           "name": "system_program",
@@ -485,6 +555,80 @@
       "args": []
     },
     {
+      "name": "remove_admin",
+      "discriminator": [
+        74,
+        202,
+        71,
+        106,
+        252,
+        31,
+        72,
+        183
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "app_stats"
+          ]
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin"
+        },
+        {
+          "name": "admin_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
       "name": "reward_view",
       "discriminator": [
         85,
@@ -548,6 +692,11 @@
       "code": 6002,
       "name": "CantReachNewCycle",
       "msg": "Can not reach new cycle"
+    },
+    {
+      "code": 6003,
+      "name": "ReachedMaxLevel",
+      "msg": "Reached max level"
     }
   ],
   "types": [
@@ -621,8 +770,12 @@
             "type": "bool"
           },
           {
-            "name": "referrer",
-            "type": "pubkey"
+            "name": "referred_count",
+            "type": "u16"
+          },
+          {
+            "name": "referred_amount",
+            "type": "u64"
           }
         ]
       }
