@@ -60,9 +60,9 @@ export const Header = () => {
             onClick={() => setVisible(true)}
             text={
               !!publicKey
-                ? `${publicKey.toBase58().slice(0, 3)}...${publicKey
+                ? `${publicKey.toBase58().slice(0, 4)}...${publicKey
                     .toBase58()
-                    .slice(-3)}`
+                    .slice(-4)}`
                 : "connect wallet"
             }
           />
