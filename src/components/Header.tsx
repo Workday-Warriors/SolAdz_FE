@@ -53,7 +53,7 @@ export const Header = () => {
         <div className="flex items-center text-xs lg:text-sm">
           <div className="hidden md:flex">
             <span className="text-white mr-4">
-              {rightText} {balance.toFixed(3)}
+              {rightText} {balance.toFixed(3)} SOL
             </span>
           </div>
           <ConnectWalletButton

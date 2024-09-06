@@ -5,16 +5,21 @@ import { MainPage } from "./views/MainPage";
 import Lottie from "lottie-react";
 import animationData from "./assets/loading/loading.json";
 import { useEffect, useState, useMemo } from "react";
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { LedgerWalletAdapter, PhantomWalletAdapter, SolflareWalletAdapter, SolongWalletAdapter, TorusWalletAdapter, UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
-  WalletModalProvider,
-} from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
+  LedgerWalletAdapter,
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+  SolongWalletAdapter,
+  TorusWalletAdapter,
+  UnsafeBurnerWalletAdapter
+} from "@solana/wallet-adapter-wallets";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { clusterApiUrl } from "@solana/web3.js";
 
 // Default styles that can be overridden by your app
-import ('@solana/wallet-adapter-react-ui/styles.css');
+import("@solana/wallet-adapter-react-ui/styles.css");
 
 const router = createBrowserRouter([
   {
