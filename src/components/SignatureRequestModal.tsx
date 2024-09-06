@@ -10,7 +10,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import IDL from '../idl/soladz.json';
 import { AnchorProvider, BN, Idl, Program } from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
-import { SYSTEM_PROGRAM_ID } from "@coral-xyz/anchor/dist/cjs/native/system";
+import moment from 'moment';
 
 const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: string }) => {
   return (
@@ -23,6 +23,7 @@ const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: str
 
 const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
   const [transactionSuccess, setTransactionSuccess] = useState(false);
+  const [txHash, setTxHash] = useState('');
 
   const { connection } = useConnection();
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
@@ -44,7 +45,8 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
       }).compileToV0Message();
       const transaction = new VersionedTransaction(message);
       const txn = await signTransaction(transaction);
-      await connection.sendTransaction(txn);
+      const sign = await connection.sendTransaction(txn);
+      setTxHash(sign);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setTransactionSuccess(true);
     } catch (e) {
@@ -76,14 +78,14 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                     <div className="w-14 h-14 bg-blue-200 rounded-full flex items-center justify-center font-medium text-blue-700">
                       Mi
                     </div>
-                    <div className="text-sm mt-2 text-center">Micha... (TYikA... Hueck)</div>
-                    <div className="text-xs text-gray-500">500 TRX</div>
+                    <div className="text-sm mt-2 text-center">{`${publicKey?.toBase58().slice(0, 3)}...${publicKey?.toBase58().slice(-3)}`}</div>
+                    {/* <div className="text-xs text-gray-500">500 TRX</div> */}
                   </div>
                   <div className="flex flex-col items-center">
                     <div className="w-14 h-14 bg-blue-200 rounded-full flex items-center justify-center font-medium text-blue-700">
                       TP
                     </div>
-                    <div className="text-sm mt-2 text-center">TPteDwgC...xeng Fx</div>
+                    <div className="text-sm mt-2 text-center">{`${IDL.address.slice(0, 3)}...${IDL.address.slice(-3)}`}</div>
                   </div>
                 </div>
                 <div className="space-y-4 border-t border-gray-200 pt-4 mb-6">
@@ -91,7 +93,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                   <TransactionItem leftVal="Network" rightVal="Mainnet/MainChain" />
                   <TransactionItem
                     leftVal="Contract"
-                    rightVal="TPteDwgC28Df5XYeXvTrR2xyszbxengjFx"
+                    rightVal={IDL.address}
                   />
                   <TransactionItem leftVal="Function" rightVal="registerUser(uint256)" />
                 </div>
@@ -151,7 +153,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                   <div className="space-y-4 text-left ">
                     <div>
                       <span className="font-medium">Transfer account</span>
-                      <div>TYIKA1JYdQPZMFYMrPiur4UxsPtP8HuecI</div>
+                      <div>{publicKey?.toBase58()}</div>
                     </div>
                     <div>
                       <span className="font-medium">Receiving account</span>
@@ -166,17 +168,17 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                         Transaction ID
                       </span>
                       <div className="break-all">
-                        186722fd7dde3b206b573fa826baa06160614a1a1a48dc04005533acac5bd0dec
+                        {txHash}
                       </div>
                     </div>
                     <div>
                       <span className="font-medium">Transaction time</span>
-                      <div>2020-10-26 17:13:18</div>
+                      <div>{moment(new Date()).format('YYYY-MM-DD hh:mm:ss')}</div>
                     </div>
-                    <div>
+                    {/* <div>
                       <span className="font-medium">Block height</span>
                       <div>24475339</div>
-                    </div>
+                    </div> */}
                     <div>
                       <span className="font-medium">Fee (?)</span>
                     </div>
