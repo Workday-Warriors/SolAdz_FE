@@ -29,6 +29,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
   const handleTransaction = useCallback(async() => {
+    alert()
     try {
       if (!publicKey || !signTransaction || !signAllTransactions) return;
       const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
@@ -68,7 +69,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
               <>
                 <div className="text-center mb-6">
                   <p className="text-2xl font-semibold ">Request Signature</p>
-                  <p className="text-gray-500">SOL-adz.com is requesting you to sign</p>
+                  <p className="text-gray-500">sol-adz.com is requesting you to sign.</p>
                 </div>
                 <div className="text-3xl font-bold text-center text-blue-300 mb-6">
                   {solAmount} SOL
@@ -76,16 +77,16 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex flex-col items-center">
                     <div className="w-14 h-14 bg-blue-200 rounded-full flex items-center justify-center font-medium text-blue-700">
-                      Mi
+                      ME
                     </div>
-                    <div className="text-sm mt-2 text-center">{`${publicKey?.toBase58().slice(0, 3)}...${publicKey?.toBase58().slice(-3)}`}</div>
+                    <div className="text-sm mt-2 text-center">{`${publicKey?.toBase58().slice(0, 4)}...${publicKey?.toBase58().slice(-4)}`}</div>
                     {/* <div className="text-xs text-gray-500">500 TRX</div> */}
                   </div>
                   <div className="flex flex-col items-center">
                     <div className="w-14 h-14 bg-blue-200 rounded-full flex items-center justify-center font-medium text-blue-700">
-                      TP
+                      SC
                     </div>
-                    <div className="text-sm mt-2 text-center">{`${IDL.address.slice(0, 3)}...${IDL.address.slice(-3)}`}</div>
+                    <div className="text-sm mt-2 text-center">{`${IDL.address.slice(0, 4)}...${IDL.address.slice(-4)}`}</div>
                   </div>
                 </div>
                 <div className="space-y-4 border-t border-gray-200 pt-4 mb-6">
@@ -93,9 +94,9 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                   <TransactionItem leftVal="Network" rightVal="Mainnet/MainChain" />
                   <TransactionItem
                     leftVal="Contract"
-                    rightVal={IDL.address}
+                    rightVal={`${IDL.address.slice(0, 12)}...${IDL.address.slice(-12)}`}
                   />
-                  <TransactionItem leftVal="Function" rightVal="registerUser(uint256)" />
+                  <TransactionItem leftVal="Function" rightVal="invest(uint256)" />
                 </div>
                 <div className="bg-gray-50 p-4 rounded-md mb-6">
                   <div className="flex items-center justify-between mb-2">
@@ -105,7 +106,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                     <Switch />
                   </div>
                   <p className="text-xs text-gray-500 mb-2">
-                    Allow SOLLink to automatically sign for this DApp
+                    Allow SolLink to automatically sign for this DApp.
                   </p>
                   <Input
                     className="w-full border-gray-300 text-black rounded-md mt-2"
@@ -180,11 +181,11 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                       <div>24475339</div>
                     </div> */}
                     <div>
-                      <span className="font-medium">Fee (?)</span>
+                      {/* <span className="font-medium">Fee (?)</span> */}
                     </div>
                   </div>
                   <a href={`https://solscan.io/tx${txHash}`} className="mt-4 text-blue-600 cursor-pointer">
-                    Go to SOLscan for detailed data
+                    Go to solscan for the detailed transaction.
                   </a>
                 </div>
               </>
