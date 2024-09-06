@@ -7,7 +7,7 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useEffect, useState } from "react";
 
 export const Header = () => {
-  const rightText = "MY SOLADZ RANK: STARTER | MY SOL ADDRESS:";
+  const rightText = "MY INVESET RANK : STARTER"+'\u00a0'+'\u00a0'+'\u00a0'+"|"+'\u00a0'+'\u00a0'+'\u00a0'+"MY SOL :" ;
   const { setVisible } = useWalletModal();
   const { publicKey } = useWallet();
 
