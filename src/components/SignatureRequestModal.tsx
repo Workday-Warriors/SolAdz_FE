@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import IDL from '../idl/soladz.json';
 import { AnchorProvider, BN, Idl, Program } from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 import moment from 'moment';
+import { BalanceContext } from "./contexts/useBalance";
 
 const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: string }) => {
   return (
@@ -21,12 +22,14 @@ const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: str
   );
 };
 
-const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
+const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, resetAmount: () => void; }) => {
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [txHash, setTxHash] = useState('');
 
   const { connection } = useConnection();
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
+
+  const { getBalance } = useContext(BalanceContext);
 
   const handleTransaction = useCallback(async() => {
     try {
@@ -49,6 +52,8 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
       setTxHash(sign);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setTransactionSuccess(true);
+      resetAmount();
+      getBalance();
     } catch (e) {
       console.log(e)
     }

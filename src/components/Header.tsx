@@ -2,39 +2,21 @@ import { ConnectWalletButton } from "./common/ConnectWalletButton";
 import TopLogo from "../assets/top-logo.png";
 import { Link } from "react-router-dom";
 import {
-  BaseWalletMultiButton,
   useWalletModal,
 } from "@solana/wallet-adapter-react-ui";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { useEffect, useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useContext, useEffect } from "react";
+import { BalanceContext } from "./contexts/useBalance";
 
 export const Header = () => {
   const rightText = "MY SOLADZ RANK: STARTER | MY SOL ADDRESS:";
   const { setVisible } = useWalletModal();
-  const { wallet, publicKey, disconnect } = useWallet();
-
-  const { connection } = useConnection();
-  const [balance, setBalance] = useState(0);
-
-  const getBalance = async () => {
-    if (!publicKey) {
-      setBalance(0);
-      return;
-    }
-
-    try {
-      const balance = await connection.getBalance(publicKey);
-      setBalance(balance / LAMPORTS_PER_SOL);
-    } catch (e) {
-      console.error("Error fetching balance", e);
-      setBalance(0);
-    }
-  };
+  const { publicKey } = useWallet();  
+  const { balance, getBalance } = useContext(BalanceContext);
 
   useEffect(() => {
     getBalance();
-  }, [publicKey, connection]);
+  }, [publicKey]);
 
   return (
     <div>
@@ -53,7 +35,7 @@ export const Header = () => {
         <div className="flex items-center text-xs lg:text-sm">
           <div className="hidden md:flex">
             <span className="text-white mr-4">
-              {rightText} {balance.toFixed(3)} SOL
+              {rightText} {!!balance ? balance.toFixed(3) : 0} SOL
             </span>
           </div>
           <ConnectWalletButton
