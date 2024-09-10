@@ -67,7 +67,7 @@ export const Calculator = () => {
                   }`}
               >
                 {/* Here is the signature request modal */}
-                <SignatureRequestModal solAmount={solAmount} />
+                <SignatureRequestModal solAmount={solAmount} resetAmount={() => setSolAmount(0)} />
               </div>
             </div>
           </div>

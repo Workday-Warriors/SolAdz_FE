@@ -1,37 +1,23 @@
 import { ConnectWalletButton } from "./common/ConnectWalletButton";
 import TopLogo from "../assets/top-logo.png";
 import { Link } from "react-router-dom";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { useEffect, useState } from "react";
+import {
+  useWalletModal,
+} from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useContext, useEffect } from "react";
+import { BalanceContext } from "./contexts/useBalance";
 
 export const Header = () => {
   const rightText = "MY INVESET RANK : STARTER"+'\u00a0'+'\u00a0'+'\u00a0'+"|"+'\u00a0'+'\u00a0'+'\u00a0'+"MY SOL :" ;
   const { setVisible } = useWalletModal();
-  const { publicKey } = useWallet();
-
-  const { connection } = useConnection();
-  const [balance, setBalance] = useState(0);
-
-  const getBalance = async () => {
-    if (!publicKey) {
-      setBalance(0);
-      return;
-    }
-
-    try {
-      const balance = await connection.getBalance(publicKey);
-      setBalance(balance / LAMPORTS_PER_SOL);
-    } catch (e) {
-      console.error("Error fetching balance", e);
-      setBalance(0);
-    }
-  };
+  const { publicKey } = useWallet();  
+  const { balance, getBalance, getRank, rank } = useContext(BalanceContext);
 
   useEffect(() => {
     getBalance();
-  }, [publicKey, connection]);
+    getRank();
+  }, [publicKey]);
 
   return (
     <div>
@@ -49,8 +35,8 @@ export const Header = () => {
 
         <div className="flex items-center text-xs lg:text-sm">
           <div className="hidden md:flex">
-            <span className="text-white mr-4">
-              {rightText} {balance.toFixed(3)} SOL
+            <span className="text-white mr-4 uppercase">
+              {`MY SOLADZ RANK: ${rank} | BALANCE: ${!!balance ? balance.toFixed(3) : 0} SOL`}
             </span>
           </div>
           <ConnectWalletButton

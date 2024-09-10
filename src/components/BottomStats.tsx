@@ -3,26 +3,28 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { connection } from "@/lib/utils";
 import { AnchorProvider, Idl, Program, utils } from "@coral-xyz/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 // import { Button } from "@/components/ui/button";
 import IDL from '../idl/soladz.json';
 import { PublicKey, LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
+import { BalanceContext } from "./contexts/useBalance";
 
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
-  const contactInfoItems = Array(8)
-    .fill(null)
-    .map((_, index: number) => ({
-      paidContributionTimer: `Paid Contribution Timer ${index + 1}`,
-      contractAddress: `Contract Address ${index + 1}`
-    }));
+  const { getRank } = useContext(BalanceContext);
+  // const contactInfoItems = Array(8)
+  //   .fill(null)
+  //   .map((_, index: number) => ({
+  //     paidContributionTimer: `Paid Contribution Timer ${index + 1}`,
+  //     contractAddress: `Contract Address ${index + 1}`
+  //   }));
 
-  const personalStatistics = Array(7)
-    .fill(null)
-    .map(() => ({
-      nextIncome: 0,
-      contribution: 0
-    }));
+  // const personalStatistics = Array(7)
+  //   .fill(null)
+  //   .map(() => ({
+  //     nextIncome: 0,
+  //     contribution: 0
+  //   }));
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
   const getReward = useCallback(async () => {
@@ -40,7 +42,8 @@ export const BottomStats = () => {
       const res = await program.methods.rewardView().accounts({
         investorAccount
       }).view();
-      setReward(Number(res) / LAMPORTS_PER_SOL)
+      setReward(Number(res) / LAMPORTS_PER_SOL);
+      getRank();
     } catch (e) {
 
     }
@@ -76,7 +79,7 @@ export const BottomStats = () => {
   return (
     <div className="px-4 mt-12">
       <div className="flex flex-col gap-4 lg:flex-row p-4 md:p-6 max-w-[1200px] border border-dashed rounded-lg border-black mx-auto">
-        <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
+        {/* <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
           <CardHeader>
             <h2 className="text-2xl poller font-bold">Smart contact info</h2>
           </CardHeader>
@@ -94,7 +97,7 @@ export const BottomStats = () => {
               </div>
             ))}
           </CardContent>
-        </Card>
+        </Card> */}
 
         <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
           <CardHeader>
@@ -105,12 +108,11 @@ export const BottomStats = () => {
               className={`"border-white/20 border-t border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
             >
               <div className="">
-                <p className="text-sm">Next income</p>
-                <p className="text-sm">Contribution</p>
+                <p className="text-sm">Reward</p>
               </div>
               <p className="text-sm">{`${reward} SOL`}</p>
             </div>
-            {personalStatistics.map((stat, index) => (
+            {/* {personalStatistics.map((stat, index) => (
               <div
                 key={index}
                 className={`${index === 0 ? "border-white/20 border-t" : ""
@@ -122,7 +124,7 @@ export const BottomStats = () => {
                 </div>
                 <p className="text-sm">{stat.nextIncome} SOL</p>
               </div>
-            ))}
+            ))} */}
             <div
               className={`mt-8 max-w-[253px] relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
             >
