@@ -1,8 +1,7 @@
 // import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { connection } from "@/lib/utils";
 import { AnchorProvider, Idl, Program, utils } from "@coral-xyz/anchor";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useCallback, useContext, useEffect, useState } from "react";
 // import { Button } from "@/components/ui/button";
 import IDL from '../idl/soladz.json';
@@ -12,6 +11,10 @@ import { BalanceContext } from "./contexts/useBalance";
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
   const { getRank } = useContext(BalanceContext);
+  const [volume, setVolume] = useState(0);
+  const [investorCount, setInvestorCount] = useState(0);
+  const [topSponsorPool, setTopSponsorPool] = useState(0);
+  const [whalePool, setWhalePool] = useState(0);
   // const contactInfoItems = Array(8)
   //   .fill(null)
   //   .map((_, index: number) => ({
@@ -26,12 +29,32 @@ export const BottomStats = () => {
   //     contribution: 0
   //   }));
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
+  const { connection } = useConnection();
 
   const getReward = useCallback(async () => {
     try {
       if (!publicKey || !signTransaction || !signAllTransactions) return;
       const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
       const program = new Program(IDL as Idl, provider);
+      const vault = PublicKey.findProgramAddressSync(
+        [
+          utils.bytes.utf8.encode("vault")
+        ],
+        program.programId
+      )[0];
+      const vol = await connection.getBalance(vault);
+      setVolume(Number(vol) / LAMPORTS_PER_SOL);
+      const appStats = PublicKey.findProgramAddressSync(
+        [
+          utils.bytes.utf8.encode("app-stats")
+        ],
+        program.programId
+      )[0];
+      // @ts-ignore
+      const appStatsAccount = await program.account.appStats.fetch(appStats);
+      setInvestorCount(Number(appStatsAccount.investorCount));
+      setTopSponsorPool(Number(appStatsAccount.topSponserPool) / LAMPORTS_PER_SOL);
+      setWhalePool(Number(appStatsAccount.whalePool) / LAMPORTS_PER_SOL);
       const investorAccount = PublicKey.findProgramAddressSync(
         [
           utils.bytes.utf8.encode("investor"),
@@ -79,25 +102,53 @@ export const BottomStats = () => {
   return (
     <div className="px-4 mt-12">
       <div className="flex flex-col gap-4 lg:flex-row p-4 md:p-6 max-w-[1200px] border border-dashed rounded-lg border-black mx-auto">
-        {/* <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
+        <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
           <CardHeader>
             <h2 className="text-2xl poller font-bold">Smart contact info</h2>
           </CardHeader>
           <CardContent>
-            {contactInfoItems.map((item, index) => (
               <div
-                key={index}
-                className={`${index === 0 ? "border-white/20 border-t" : ""
-                  } border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+                className={`border-white/20 border-t border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
               >
-                <div>
-                  <p className="text-sm">{item.paidContributionTimer}</p>
-                  <p className="text-sm ">{item.contractAddress}</p>
+                <div className="text-sm">
+                  CA
                 </div>
+                <div className="text-sm ">{IDL.address}</div>
               </div>
-            ))}
+              <div
+                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+              >
+                <div className="text-sm">
+                  Total users
+                </div>
+                <div className="text-sm ">{`${investorCount}`}</div>
+              </div>
+              <div
+                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+              >
+                <div className="text-sm">
+                  Total deposited
+                </div>
+                <div className="text-sm ">{`${volume.toFixed(4)} SOL`}</div>
+              </div>
+              <div
+                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+              >
+                <div className="text-sm">
+                  Top sponsor pool
+                </div>
+                <div className="text-sm ">{`${topSponsorPool.toFixed(4)} SOL`}</div>
+              </div>
+              <div
+                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+              >
+                <div className="text-sm">
+                  Whale pool
+                </div>
+                <div className="text-sm ">{`${whalePool.toFixed(4)} SOL`}</div>
+              </div>
           </CardContent>
-        </Card> */}
+        </Card>
 
         <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
           <CardHeader>
