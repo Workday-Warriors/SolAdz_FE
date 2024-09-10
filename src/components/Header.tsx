@@ -12,10 +12,11 @@ export const Header = () => {
   const rightText = "MY SOLADZ RANK: STARTER | MY SOL ADDRESS:";
   const { setVisible } = useWalletModal();
   const { publicKey } = useWallet();  
-  const { balance, getBalance } = useContext(BalanceContext);
+  const { balance, getBalance, getRank, rank } = useContext(BalanceContext);
 
   useEffect(() => {
     getBalance();
+    getRank();
   }, [publicKey]);
 
   return (
@@ -34,8 +35,8 @@ export const Header = () => {
 
         <div className="flex items-center text-xs lg:text-sm">
           <div className="hidden md:flex">
-            <span className="text-white mr-4">
-              {rightText} {!!balance ? balance.toFixed(3) : 0} SOL
+            <span className="text-white mr-4 uppercase">
+              {`MY SOLADZ RANK: ${rank} | BALANCE: ${!!balance ? balance.toFixed(3) : 0} SOL`}
             </span>
           </div>
           <ConnectWalletButton

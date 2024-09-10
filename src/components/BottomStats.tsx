@@ -3,26 +3,28 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { connection } from "@/lib/utils";
 import { AnchorProvider, Idl, Program, utils } from "@coral-xyz/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 // import { Button } from "@/components/ui/button";
 import IDL from '../idl/soladz.json';
 import { PublicKey, LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
+import { BalanceContext } from "./contexts/useBalance";
 
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
-  const contactInfoItems = Array(8)
-    .fill(null)
-    .map((_, index: number) => ({
-      paidContributionTimer: `Paid Contribution Timer ${index + 1}`,
-      contractAddress: `Contract Address ${index + 1}`
-    }));
+  const { getRank } = useContext(BalanceContext);
+  // const contactInfoItems = Array(8)
+  //   .fill(null)
+  //   .map((_, index: number) => ({
+  //     paidContributionTimer: `Paid Contribution Timer ${index + 1}`,
+  //     contractAddress: `Contract Address ${index + 1}`
+  //   }));
 
-  const personalStatistics = Array(7)
-    .fill(null)
-    .map(() => ({
-      nextIncome: 0,
-      contribution: 0
-    }));
+  // const personalStatistics = Array(7)
+  //   .fill(null)
+  //   .map(() => ({
+  //     nextIncome: 0,
+  //     contribution: 0
+  //   }));
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
   const getReward = useCallback(async () => {
@@ -40,7 +42,8 @@ export const BottomStats = () => {
       const res = await program.methods.rewardView().accounts({
         investorAccount
       }).view();
-      setReward(Number(res) / LAMPORTS_PER_SOL)
+      setReward(Number(res) / LAMPORTS_PER_SOL);
+      getRank();
     } catch (e) {
 
     }

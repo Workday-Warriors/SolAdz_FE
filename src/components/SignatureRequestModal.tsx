@@ -29,7 +29,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
   const { connection } = useConnection();
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
-  const { getBalance } = useContext(BalanceContext);
+  const { getBalance, getRank } = useContext(BalanceContext);
 
   const handleTransaction = useCallback(async() => {
     try {
@@ -54,6 +54,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
       setTransactionSuccess(true);
       resetAmount();
       getBalance();
+      getRank();
     } catch (e) {
       console.log(e)
     }
