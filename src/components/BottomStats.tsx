@@ -7,6 +7,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import IDL from '../idl/soladz.json';
 import { PublicKey, LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 import { BalanceContext } from "./contexts/useBalance";
+import { userService } from "@/services/api.service";
 
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
@@ -15,19 +16,9 @@ export const BottomStats = () => {
   const [investorCount, setInvestorCount] = useState(0);
   const [topSponsorPool, setTopSponsorPool] = useState(0);
   const [whalePool, setWhalePool] = useState(0);
-  // const contactInfoItems = Array(8)
-  //   .fill(null)
-  //   .map((_, index: number) => ({
-  //     paidContributionTimer: `Paid Contribution Timer ${index + 1}`,
-  //     contractAddress: `Contract Address ${index + 1}`
-  //   }));
-
-  // const personalStatistics = Array(7)
-  //   .fill(null)
-  //   .map(() => ({
-  //     nextIncome: 0,
-  //     contribution: 0
-  //   }));
+  const [commission, setCommission] = useState(0);
+  const [lastClaim, setLastClaim] = useState(Math.floor(Date.now() / 1000));
+  
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
   const { connection } = useConnection();
 
@@ -67,6 +58,8 @@ export const BottomStats = () => {
       }).view();
       setReward(Number(res) / LAMPORTS_PER_SOL);
       getRank();
+      const commssionReward = await userService.getCommission(publicKey.toBase58());
+      setCommission(commssionReward);
     } catch (e) {
 
     }
@@ -75,7 +68,7 @@ export const BottomStats = () => {
   useEffect(() => {
     const timer = setInterval(async () => {
       getReward();
-    }, 3000)
+    }, 36000)
     return () => {
       clearInterval(timer);
     }
@@ -163,19 +156,6 @@ export const BottomStats = () => {
               </div>
               <p className="text-sm">{`${reward} SOL`}</p>
             </div>
-            {/* {personalStatistics.map((stat, index) => (
-              <div
-                key={index}
-                className={`${index === 0 ? "border-white/20 border-t" : ""
-                  } border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
-              >
-                <div className="">
-                  <p className="text-sm">Next income</p>
-                  <p className="text-sm">Contribution</p>
-                </div>
-                <p className="text-sm">{stat.nextIncome} SOL</p>
-              </div>
-            ))} */}
             <div
               className={`mt-8 max-w-[253px] relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
             >

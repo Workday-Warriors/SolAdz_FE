@@ -59,7 +59,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
       } catch (e) {
         isNew = true;
       }
-      if (!!ref) {
+      if (!!ref && isNew) {
         referrer = new PublicKey(ref);
         const ixn = await program.methods.initInvestorWithRef(new BN(solAmount * LAMPORTS_PER_SOL)).accounts({
           referrer

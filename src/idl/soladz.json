@@ -1,5 +1,5 @@
 {
-  "address": "J26NbKYZdPUoqje3R618EUaGix2Y4zf6unxHw28epz5v",
+  "address": "4x7sKJijVCFmwX5gQ273o1kA2SzDYTwepmTBZuTeTbPV",
   "metadata": {
     "name": "soladz",
     "version": "0.1.0",
@@ -118,7 +118,7 @@
         {
           "name": "server_signer",
           "signer": true,
-          "address": "Gaj7cGbQ3CCWkqn8QsnLXEVaBaTN98GRxkX1pPsC4yNS"
+          "address": "H9mVt3VUBUYADZKhw5rjPgEs57o877J9WF9QGrBVBfkq"
         },
         {
           "name": "investor_account",
@@ -814,6 +814,11 @@
       "code": 6006,
       "name": "ArithmaticOverflow",
       "msg": "Arithmatic overflow"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidTime",
+      "msg": "Invalid Time"
     }
   ],
   "types": [
@@ -893,6 +898,10 @@
           {
             "name": "referred_amount",
             "type": "u64"
+          },
+          {
+            "name": "last_update_commission",
+            "type": "i64"
           }
         ]
       }
