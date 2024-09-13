@@ -36,7 +36,9 @@ export const GradientButton: React.FC<GradientButtonProps> = ({
           : "0 4px 6px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <span className="relative z-10 text-white mix-blend-overlay text-stroke animate-pulse-blur">{text}</span>
+      <span className="relative z-10 text-[#a5e7f1] mix-blend-overlay  animate-pulse-blur">
+        {text}
+      </span>
       <span
         className="absolute inset-0 z-0 animate-text-glow"
         aria-hidden="true"
