@@ -11,5 +11,13 @@ export const userService = {
     getCommission: async (address: string) => {
         const res = await axios.get(`${baseUrl}/users/commission/${address}`);
         return res.data;
+    },
+    getCommissionTxn: async (address: string) => {
+        const res = await axios.get(`${baseUrl}/users/commission/txn/${address}`);
+        return res.data;
+    },
+    getUserInfo: async (address: string) => {
+        const res = await axios.get(`${baseUrl}/users/${address}`);
+        return res.data;
     }
 }

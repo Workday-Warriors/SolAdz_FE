@@ -9,6 +9,7 @@ import { PublicKey, LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction }
 import { BalanceContext } from "./contexts/useBalance";
 import { userService } from "@/services/api.service";
 import { calculateTimeLeft } from "@/utils/time.utils";
+import { User } from "@/types";
 
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
@@ -22,6 +23,7 @@ export const BottomStats = () => {
   const [matchingBonus, setMatchingbonus] = useState(0);
   const [timeLeft, setTimeLeft] = useState<{ days: string; hours: string; mins: string; sec: string; }>();
   const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [user, setUser] = useState<User>();
 
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
   const { connection } = useConnection();
@@ -71,6 +73,8 @@ export const BottomStats = () => {
       setMatchingbonus(bonus / LAMPORTS_PER_SOL);
       getRank();
       const commssionReward = await userService.getCommission(publicKey.toBase58());
+      const userinfo: User = await userService.getUserInfo(publicKey.toBase58());
+      setUser(userinfo);
       setCommission(commssionReward);
     } catch (e) {
       console.log(e)
@@ -116,6 +120,8 @@ export const BottomStats = () => {
     const transaction = new VersionedTransaction(message);
     const txn = await signTransaction(transaction);
     await connection.sendTransaction(txn);
+    // withdraw commission
+
     await new Promise((resolve) => setTimeout(resolve, 3000));
   }, [publicKey, signTransaction, signAllTransactions]);
 
@@ -216,6 +222,22 @@ export const BottomStats = () => {
                 <p className="text-sm">Matching bonus</p>
               </div>
               <p className="text-sm">{`${matchingBonus} SOL`}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Top sponsor pool reward</p>
+              </div>
+              <p className="text-sm">{`${!!user ? user?.topSponsorReward : 0} SOL`}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Whale pool reward</p>
+              </div>
+              <p className="text-sm">{`${!!user ? user?.whalePoolReward : 0} SOL`}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}

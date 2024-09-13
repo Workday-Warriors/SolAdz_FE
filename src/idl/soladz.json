@@ -722,6 +722,81 @@
       "returns": "u64"
     },
     {
+      "name": "run_distribution",
+      "discriminator": [
+        65,
+        70,
+        88,
+        132,
+        9,
+        224,
+        15,
+        17
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true,
+          "address": "H9mVt3VUBUYADZKhw5rjPgEs57o877J9WF9QGrBVBfkq"
+        },
+        {
+          "name": "receiver",
+          "writable": true
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "transfer_ownership",
       "discriminator": [
         65,
