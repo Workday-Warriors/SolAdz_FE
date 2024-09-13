@@ -84,7 +84,7 @@ export const BottomStats = () => {
   useEffect(() => {
     const timer = setInterval(async () => {
       getReward();
-    }, 3000)
+    }, 36000)
     return () => {
       clearInterval(timer);
     }
