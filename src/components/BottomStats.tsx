@@ -151,7 +151,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Total users
               </div>
-              <div className="text-sm ">{`${investorCount}`}</div>
+              <div className="text-sm ">{!!publicKey ? `${investorCount}` : '-'}</div>
             </div>
             <div
               className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -159,7 +159,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Total deposited
               </div>
-              <div className="text-sm ">{`${volume.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{!!publicKey ? `${volume.toFixed(4)} SOL` : '-'}</div>
             </div>
             <div
               className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -167,7 +167,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Top sponsor pool
               </div>
-              <div className="text-sm ">{`${topSponsorPool.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{!!publicKey ? `${topSponsorPool.toFixed(4)} SOL` : '-'}</div>
             </div>
             <div
               className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -175,7 +175,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Whale pool
               </div>
-              <div className="text-sm ">{`${whalePool.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{!!publicKey ? `${whalePool.toFixed(4)} SOL` : '-'}</div>
             </div>
           </CardContent>
         </Card>
