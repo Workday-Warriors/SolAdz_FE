@@ -1,7 +1,7 @@
 import { CreateUserPayload } from "@/types";
 import axios from "axios";
 
-const baseUrl = process.env.NODE_ENV === 'development' ? process.env.NEXT_APP_LOCAL_API : process.env.NEXT_APP_DOMAIN_API;
+const baseUrl = 'http://localhost:4000';
 
 export const userService = {
     create: async (payload: CreateUserPayload) => {

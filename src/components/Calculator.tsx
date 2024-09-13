@@ -2,11 +2,13 @@ import { useContext, useState } from "react";
 import SignatureRequestModal from "./SignatureRequestModal";
 import CalculatorBg from "../assets/calculator-bg.png";
 import { BalanceContext } from "./contexts/useBalance";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export const Calculator = () => {
   const [solAmount, setSolAmount] = useState(0);
 
   const { balance } = useContext(BalanceContext);
+  const { publicKey } = useWallet();
 
   const handleAmountClick = (amount: number) => {
     setSolAmount((prevVal) => +(amount + prevVal).toFixed(2));
@@ -73,6 +75,14 @@ export const Calculator = () => {
                 <SignatureRequestModal solAmount={solAmount} resetAmount={() => setSolAmount(0)} />
               </div>
             </div>
+            <button
+              onClick={async () => {
+                await navigator.clipboard.writeText(`http://localhost:5173/innovation?ref=${publicKey?.toBase58()}`);
+              }}
+              className="mt-[20px] border py-2 px-4 rounded-xl text-white cursor-pointer hover:bg-white/10"
+            >
+              Copy Referral Link
+            </button>
           </div>
         </div>
       </div>
