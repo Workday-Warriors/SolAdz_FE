@@ -238,8 +238,8 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
 
   return (
     <Dialog>
-      <DialogTrigger disabled={solAmount === 0} asChild>
-        <button className="w-full bg-[#140e3c] hover:bg-white/20 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px] disabled:hover:bg-[#140e3c]">
+      <DialogTrigger disabled={solAmount === 0 || !publicKey} asChild>
+        <button disabled={!publicKey || solAmount === 0} className="w-full bg-[#140e3c] hover:bg-white/20 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px] disabled:hover:bg-[#140e3c]">
           Deposit
         </button>
       </DialogTrigger>

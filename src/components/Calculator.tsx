@@ -75,14 +75,16 @@ export const Calculator = () => {
                 <SignatureRequestModal solAmount={solAmount} resetAmount={() => setSolAmount(0)} />
               </div>
             </div>
-            <button
-              onClick={async () => {
-                await navigator.clipboard.writeText(`http://localhost:5173/innovation?ref=${publicKey?.toBase58()}`);
-              }}
-              className="mt-[20px] border py-2 px-4 rounded-xl text-white cursor-pointer hover:bg-white/10"
-            >
-              Copy Referral Link
-            </button>
+            <div className="flex justify-center">
+              <button
+                onClick={async () => {
+                  await navigator.clipboard.writeText(`http://localhost:5173/innovation?ref=${publicKey?.toBase58()}`);
+                }}
+                className="mt-[20px] border py-2 px-4 rounded-xl text-white cursor-pointer hover:bg-white/10 w-full lg:w-[300px]"
+              >
+                Copy Referral Link
+              </button>
+            </div>
           </div>
         </div>
       </div>
