@@ -32,6 +32,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
   const { connection } = useConnection();
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
   const [spentAmount, setSpentAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { getBalance, getRank, balance } = useContext(BalanceContext);
 
@@ -40,6 +41,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
   const handleTransaction = useCallback(async () => {
     try {
       if (!publicKey || !signTransaction || !signAllTransactions) return;
+      setIsLoading(true);
       const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
       const program = new Program(IDL as Idl, provider);
       const ref = searchParams.get('ref');
@@ -101,8 +103,10 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
       resetAmount();
       getBalance();
       getRank();
+      setIsLoading(false);
     } catch (e) {
       console.log(e)
+      setIsLoading(false);
     }
   }, [publicKey, signAllTransactions, signAllTransactions, solAmount]);
 
@@ -170,6 +174,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
               onClick={handleTransaction}
               size="lg"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white transition"
+              disabled={isLoading}
             >
               Accept
             </Button>
