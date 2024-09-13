@@ -79,7 +79,7 @@ export const Calculator = () => {
               onClick={async () => {
                 await navigator.clipboard.writeText(`http://localhost:5173/innovation?ref=${publicKey?.toBase58()}`);
               }}
-              className="mt-[20px] border py-2 px-4 rounded-xl text-white cursor-pointer hover:bg-white/10"
+              className="w-full mt-[20px] border py-2 px-4 rounded-xl text-white cursor-pointer hover:bg-white/10"
             >
               Copy Referral Link
             </button>
