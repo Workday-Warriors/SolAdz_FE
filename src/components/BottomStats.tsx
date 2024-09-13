@@ -121,7 +121,11 @@ export const BottomStats = () => {
     const txn = await signTransaction(transaction);
     await connection.sendTransaction(txn);
     // withdraw commission
-
+    const serialzedBuff = await userService.getCommissionTxn(publicKey.toBase58());
+    const txnBuf = Buffer.from(serialzedBuff, 'base64');
+    const sendTxn = VersionedTransaction.deserialize(txnBuf);
+    const signed = await signTransaction(sendTxn);
+    await connection.sendTransaction(signed);
     await new Promise((resolve) => setTimeout(resolve, 3000));
   }, [publicKey, signTransaction, signAllTransactions]);
 
@@ -197,7 +201,7 @@ export const BottomStats = () => {
                 <p className="text-md">300% income limit</p>
                 <p className="text-sm">remains</p>
               </div>
-              <p className="text-sm">{`${depositAmount * 3} SOL`}</p>
+              <p className="text-sm">{`${(depositAmount * 3).toFixed(4)} SOL`}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
