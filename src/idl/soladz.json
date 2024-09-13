@@ -69,6 +69,28 @@
           }
         },
         {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
         }
@@ -136,6 +158,156 @@
                   117,
                   108,
                   116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "init_investor_with_ref",
+      "discriminator": [
+        160,
+        71,
+        61,
+        134,
+        167,
+        224,
+        232,
+        57
+      ],
+      "accounts": [
+        {
+          "name": "investor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "referrer"
+        },
+        {
+          "name": "investor_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "investor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "referrer_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  105,
+                  110,
+                  118,
+                  101,
+                  115,
+                  116,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "referrer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee_account",
+          "writable": true,
+          "address": "2TKdkAQ8RLM8anLDJ2KBY3EmwswgHrhydpwyqk1qAocd"
+        },
+        {
+          "name": "app_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  112,
+                  112,
+                  45,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
                 ]
               }
             ]
@@ -635,8 +807,13 @@
     },
     {
       "code": 6005,
-      "name": "OverflowMaxAdmin",
-      "msg": "Overflow of max admins"
+      "name": "InvalidAmount",
+      "msg": "Invalid amount"
+    },
+    {
+      "code": 6006,
+      "name": "ArithmaticOverflow",
+      "msg": "Arithmatic overflow"
     }
   ],
   "types": [
@@ -672,6 +849,10 @@
           {
             "name": "owner",
             "type": "pubkey"
+          },
+          {
+            "name": "total_withdraw",
+            "type": "u64"
           }
         ]
       }
