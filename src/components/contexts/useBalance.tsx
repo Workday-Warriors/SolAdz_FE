@@ -1,9 +1,10 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { createContext, useCallback, useState } from "react";
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { AnchorProvider, Idl, Program, utils } from "@coral-xyz/anchor";
 import IDL from '../../idl/soladz.json';
 import { calculateRank } from "@/utils/soladz.utils";
+import { connection } from "@/lib/utils";
 
 export interface BalanceContextProps {
     balance: number;
@@ -22,7 +23,9 @@ export const BalanceContextProvider = ({ children }: { children: React.ReactNode
 
     const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
-    const { connection } = useConnection();
+    // const { connection } = useConnection();
+
+    console.log("publicKey:",publicKey?.toBase58())
 
     const getBalance = async () => {
         if (!publicKey || !connection) return;
